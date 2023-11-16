@@ -348,21 +348,20 @@ std::vector<std::string> hardcodedValue = {"mech-ag"};
         lg::print("dgo name is {}\n", dgo_name);
         const auto& dgo_name = dgo;
         const auto& files = db.obj_files_by_dgo.at(dgo_name);
-        lg::print("dgo name is {}\n", dgo_name);
         auto art_groups =
             find_art_groups_extract(processed_art_groups,
                             hardcodedValue, files);
-       lg::print("dgo name is {}\n", dgo_name);
         auto tex_remap = decompiler::extract_tex_remap(db, dgo_name);
-       lg::print("dgo name is {}\n", dgo_name);
         for (const auto& ag : art_groups) {
            lg::print("custom level: extracting art group {}\n", db.lookup_record(ag).name_in_dgo);
+          lg::print(ag.name);
+          lg::print("\n");
           if (ag.name.length() > 3 && !ag.name.compare(ag.name.length() - 3, 3, "-ag")) {
             const auto& ag_file = db.lookup_record(ag);
             lg::print("custom level: extracting art group {}\n", ag_file.name_in_dgo);
             decompiler::extract_merc(ag_file, tex_db, db.dts, tex_remap, tfrag_level, false,
                                      db.version());
-                                     // extract_merc(ag_file, tex_db, db.dts, tex_remap, level_data, false, db.version());
+            // extract_merc(ag_file, tex_db, db.dts, tex_remap, level_data, false, db.version());
           }
         }
       }
@@ -374,10 +373,10 @@ std::vector<std::string> hardcodedValue = {"mech-ag"};
   auto compressed =
       compression::compress_zstd(ser.get_save_result().first, ser.get_save_result().second);
 
-  lg::info("stats for {}", dgo_name);
+  // lg::info("stats for {}", dgo_name);
   print_memory_usage(tfrag_level, ser.get_save_result().second);
-  lg::info("compressed: {} -> {} ({:.2f}%)", ser.get_save_result().second, compressed.size(),
-           100.f * compressed.size() / ser.get_save_result().second);
+  // lg::info("compressed: {} -> {} ({:.2f}%)", ser.get_save_result().second, compressed.size(),
+  //          100.f * compressed.size() / ser.get_save_result().second);
   file_util::write_binary_file(
       output_folder / fmt::format("{}.fr3", dgo_name.substr(0, dgo_name.length() - 4)),
       compressed.data(), compressed.size());
@@ -415,10 +414,10 @@ void extract_from_level(const ObjectFileDB& db,
   level_data.serialize(ser);
   auto compressed =
       compression::compress_zstd(ser.get_save_result().first, ser.get_save_result().second);
-  lg::info("stats for {}", dgo_name);
+  // lg::info("stats for {}", dgo_name);
   print_memory_usage(level_data, ser.get_save_result().second);
-  lg::info("compressed: {} -> {} ({:.2f}%)", ser.get_save_result().second, compressed.size(),
-           100.f * compressed.size() / ser.get_save_result().second);
+  // lg::info("compressed: {} -> {} ({:.2f}%)", ser.get_save_result().second, compressed.size(),
+  //          100.f * compressed.size() / ser.get_save_result().second);
   file_util::write_binary_file(
       output_folder / fmt::format("{}.fr3", dgo_name.substr(0, dgo_name.length() - 4)),
       compressed.data(), compressed.size());

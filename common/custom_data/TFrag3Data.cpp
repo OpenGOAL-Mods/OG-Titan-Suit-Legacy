@@ -741,60 +741,60 @@ void Level::memory_usage(MemoryUsageTracker* tracker) const {
 }
 
 void print_memory_usage(const tfrag3::Level& lev, int uncompressed_data_size) {
-  int total_accounted = 0;
-  MemoryUsageTracker mem_use;
-  lev.memory_usage(&mem_use);
+  // int total_accounted = 0;
+  // MemoryUsageTracker mem_use;
+  // lev.memory_usage(&mem_use);
 
-  std::vector<std::pair<std::string, int>> known_categories = {
-      {"texture", mem_use.data[tfrag3::MemoryUsageCategory::TEXTURE]},
-      {"special-texture", mem_use.data[tfrag3::MemoryUsageCategory::SPECIAL_TEXTURE]},
-      {"tie-deinst-vis", mem_use.data[tfrag3::MemoryUsageCategory::TIE_DEINST_VIS]},
-      {"tie-deinst-idx", mem_use.data[tfrag3::MemoryUsageCategory::TIE_DEINST_INDEX]},
-      {"tie-inst-vis", mem_use.data[tfrag3::MemoryUsageCategory::TIE_INST_VIS]},
-      {"tie-inst-idx", mem_use.data[tfrag3::MemoryUsageCategory::TIE_INST_INDEX]},
-      {"tie-bvh", mem_use.data[tfrag3::MemoryUsageCategory::TIE_BVH]},
-      {"tie-verts", mem_use.data[tfrag3::MemoryUsageCategory::TIE_VERTS]},
-      {"tie-colors", mem_use.data[tfrag3::MemoryUsageCategory::TIE_TIME_OF_DAY]},
-      {"tie-wind-inst-info", mem_use.data[tfrag3::MemoryUsageCategory::TIE_WIND_INSTANCE_INFO]},
-      {"tie-cidx", mem_use.data[tfrag3::MemoryUsageCategory::TIE_CIDX]},
-      {"tie-mats", mem_use.data[tfrag3::MemoryUsageCategory::TIE_MATRICES]},
-      {"tie-grps", mem_use.data[tfrag3::MemoryUsageCategory::TIE_GRPS]},
-      {"tfrag-vis", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_VIS]},
-      {"tfrag-idx", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_INDEX]},
-      {"tfrag-vert", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_VERTS]},
-      {"tfrag-colors", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_TIME_OF_DAY]},
-      {"tfrag-cluster", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_CLUSTER]},
-      {"tfrag-bvh", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_BVH]},
-      {"shrub-colors", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_TIME_OF_DAY]},
-      {"shrub-vert", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_VERT]},
-      {"shrub-ind", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_IND]},
-      {"shrub-draw", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_DRAW]},
-      {"collision", mem_use.data[tfrag3::MemoryUsageCategory::COLLISION]},
-      {"merc-vert", mem_use.data[tfrag3::MemoryUsageCategory::MERC_VERT]},
-      {"merc-idx", mem_use.data[tfrag3::MemoryUsageCategory::MERC_INDEX]},
-      {"merc-draw", mem_use.data[tfrag3::MemoryUsageCategory::MERC_DRAW]},
-      {"merc-mod-vert", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_VERT]},
-      {"merc-mod-ind", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_IND]},
-      {"merc-mod-table", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_TABLE]},
-      {"merc-mod-draw-1", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_DRAW_1]},
-      {"merc-mod-draw-2", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_DRAW_2]},
-      {"blerc", mem_use.data[tfrag3::MemoryUsageCategory::BLERC]},
-  };
-  for (auto& known : known_categories) {
-    total_accounted += known.second;
-  }
+  // std::vector<std::pair<std::string, int>> known_categories = {
+  //     {"texture", mem_use.data[tfrag3::MemoryUsageCategory::TEXTURE]},
+  //     {"special-texture", mem_use.data[tfrag3::MemoryUsageCategory::SPECIAL_TEXTURE]},
+  //     {"tie-deinst-vis", mem_use.data[tfrag3::MemoryUsageCategory::TIE_DEINST_VIS]},
+  //     {"tie-deinst-idx", mem_use.data[tfrag3::MemoryUsageCategory::TIE_DEINST_INDEX]},
+  //     {"tie-inst-vis", mem_use.data[tfrag3::MemoryUsageCategory::TIE_INST_VIS]},
+  //     {"tie-inst-idx", mem_use.data[tfrag3::MemoryUsageCategory::TIE_INST_INDEX]},
+  //     {"tie-bvh", mem_use.data[tfrag3::MemoryUsageCategory::TIE_BVH]},
+  //     {"tie-verts", mem_use.data[tfrag3::MemoryUsageCategory::TIE_VERTS]},
+  //     {"tie-colors", mem_use.data[tfrag3::MemoryUsageCategory::TIE_TIME_OF_DAY]},
+  //     {"tie-wind-inst-info", mem_use.data[tfrag3::MemoryUsageCategory::TIE_WIND_INSTANCE_INFO]},
+  //     {"tie-cidx", mem_use.data[tfrag3::MemoryUsageCategory::TIE_CIDX]},
+  //     {"tie-mats", mem_use.data[tfrag3::MemoryUsageCategory::TIE_MATRICES]},
+  //     {"tie-grps", mem_use.data[tfrag3::MemoryUsageCategory::TIE_GRPS]},
+  //     {"tfrag-vis", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_VIS]},
+  //     {"tfrag-idx", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_INDEX]},
+  //     {"tfrag-vert", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_VERTS]},
+  //     {"tfrag-colors", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_TIME_OF_DAY]},
+  //     {"tfrag-cluster", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_CLUSTER]},
+  //     {"tfrag-bvh", mem_use.data[tfrag3::MemoryUsageCategory::TFRAG_BVH]},
+  //     {"shrub-colors", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_TIME_OF_DAY]},
+  //     {"shrub-vert", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_VERT]},
+  //     {"shrub-ind", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_IND]},
+  //     {"shrub-draw", mem_use.data[tfrag3::MemoryUsageCategory::SHRUB_DRAW]},
+  //     {"collision", mem_use.data[tfrag3::MemoryUsageCategory::COLLISION]},
+  //     {"merc-vert", mem_use.data[tfrag3::MemoryUsageCategory::MERC_VERT]},
+  //     {"merc-idx", mem_use.data[tfrag3::MemoryUsageCategory::MERC_INDEX]},
+  //     {"merc-draw", mem_use.data[tfrag3::MemoryUsageCategory::MERC_DRAW]},
+  //     {"merc-mod-vert", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_VERT]},
+  //     {"merc-mod-ind", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_IND]},
+  //     {"merc-mod-table", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_TABLE]},
+  //     {"merc-mod-draw-1", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_DRAW_1]},
+  //     {"merc-mod-draw-2", mem_use.data[tfrag3::MemoryUsageCategory::MERC_MOD_DRAW_2]},
+  //     {"blerc", mem_use.data[tfrag3::MemoryUsageCategory::BLERC]},
+  // };
+  // for (auto& known : known_categories) {
+  //   total_accounted += known.second;
+  // }
 
-  known_categories.push_back({"unknown", uncompressed_data_size - total_accounted});
+  // known_categories.push_back({"unknown", uncompressed_data_size - total_accounted});
 
-  std::sort(known_categories.begin(), known_categories.end(),
-            [](const auto& a, const auto& b) { return a.second > b.second; });
+  // std::sort(known_categories.begin(), known_categories.end(),
+  //           [](const auto& a, const auto& b) { return a.second > b.second; });
 
-  for (const auto& x : known_categories) {
-    if (x.second) {
-      fmt::print("{:30s} : {:6d} kB {:3.1f}%\n", x.first, x.second / 1024,
-                 100.f * (float)x.second / uncompressed_data_size);
-    }
-  }
+  // for (const auto& x : known_categories) {
+  //   if (x.second) {
+  //     fmt::print("{:30s} : {:6d} kB {:3.1f}%\n", x.first, x.second / 1024,
+  //                100.f * (float)x.second / uncompressed_data_size);
+  //   }
+  // }
 }
 
 std::size_t PreloadedVertex::hash::operator()(const PreloadedVertex& v) const {
