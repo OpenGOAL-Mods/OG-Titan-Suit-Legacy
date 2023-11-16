@@ -156,7 +156,7 @@ bool run_build_level(const std::string& input_file,
         // remove "DGO/" prefix
         const auto& dgo_name = dgo.substr(4);
         const auto& files = db.obj_files_by_dgo.at(dgo_name);
-        auto art_groups =
+      auto art_groups =
             find_art_groups(processed_art_groups,
                             level_json.at("art_groups").get<std::vector<std::string>>(), files);
         auto tex_remap = decompiler::extract_tex_remap(db, dgo_name);

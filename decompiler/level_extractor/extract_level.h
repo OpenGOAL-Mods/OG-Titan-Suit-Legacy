@@ -28,4 +28,8 @@ tfrag3::Texture make_texture(u32 id,
                              bool pool_load);
 std::vector<level_tools::TextureRemap> extract_tex_remap(const ObjectFileDB& db,
                                                          const std::string& dgo_name);
+                                                         std::vector<decompiler::ObjectFileRecord> find_art_groups_extract(
+    std::vector<std::string>& processed_ags,
+    const std::vector<std::string>& custom_level_ag,
+    const std::vector<decompiler::ObjectFileRecord>& dgo_files);
 }  // namespace decompiler

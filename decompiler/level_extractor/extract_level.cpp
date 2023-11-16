@@ -257,21 +257,43 @@ level_tools::BspHeader extract_bsp_from_level(const ObjectFileDB& db,
  * Even though GAME.CGO isn't technically a level, the decompiler/loader treat it like one,
  * but the bsp stuff is just empty. It will contain only textures/art groups.
  */
+
+std::vector<decompiler::ObjectFileRecord> find_art_groups_extract(
+    std::vector<std::string>& processed_ags,
+    const std::vector<std::string>& custom_level_ag,
+    const std::vector<decompiler::ObjectFileRecord>& dgo_files) {
+  std::vector<decompiler::ObjectFileRecord> art_groups;
+  for (const auto& file : dgo_files) {
+    // skip any art groups we already added from other dgos
+    if (std::find(processed_ags.begin(), processed_ags.end(), file.name) != processed_ags.end()) {
+      continue;
+    }
+    if (std::find(custom_level_ag.begin(), custom_level_ag.end(), file.name) !=
+        custom_level_ag.end()) {
+      art_groups.push_back(file);
+      processed_ags.push_back(file.name);
+    }
+  }
+  return art_groups;
+}
+
+
 void extract_common(const ObjectFileDB& db,
                     const TextureDB& tex_db,
                     const std::string& dgo_name,
                     bool dump_levels,
                     const fs::path& output_folder,
-                    const Config& config) {
-  if (db.obj_files_by_dgo.count(dgo_name) == 0) {
-    lg::warn("Skipping common extract for {} because the DGO was not part of the input", dgo_name);
-    return;
-  }
+                    const Config& config,
+                    const std::vector<std::string>& dgo_names) {
+  // if (db.obj_files_by_dgo.count(dgo_name) == 0) {
+  //   lg::warn("Skipping common extract for {} because the DGO was not part of the input", dgo_name);
+  //   return;
+  // }
 
-  if (tex_db.textures.size() == 0) {
-    lg::warn("Skipping common extract because there were no textures in the input");
-    return;
-  }
+  // if (tex_db.textures.size() == 0) {
+  //   lg::warn("Skipping common extract because there were no textures in the input");
+  //   return;
+  // }
 
   confirm_textures_identical(tex_db);
 
@@ -309,6 +331,43 @@ void extract_common(const ObjectFileDB& db,
           make_texture(id, normal_texture, tex_db.tpage_names.at(normal_texture.page), false));
     }
   }
+
+
+std::vector<std::string> hardcodedValue = {"mech-ag"};
+
+
+       lg::print("fart\n");
+      for (auto& dgo : dgo_names) {
+    // if (dgo.substr(4) == "GAME.CGO") {
+    //     continue;
+    // }
+         lg::print("custom level: extracting art group {}\n", dgo);
+        std::vector<std::string> processed_art_groups;
+        // remove "DGO/" prefix
+
+        lg::print("dgo name is {}\n", dgo_name);
+        const auto& dgo_name = dgo;
+        const auto& files = db.obj_files_by_dgo.at(dgo_name);
+        lg::print("dgo name is {}\n", dgo_name);
+        auto art_groups =
+            find_art_groups_extract(processed_art_groups,
+                            hardcodedValue, files);
+       lg::print("dgo name is {}\n", dgo_name);
+        auto tex_remap = decompiler::extract_tex_remap(db, dgo_name);
+       lg::print("dgo name is {}\n", dgo_name);
+        for (const auto& ag : art_groups) {
+           lg::print("custom level: extracting art group {}\n", db.lookup_record(ag).name_in_dgo);
+          if (ag.name.length() > 3 && !ag.name.compare(ag.name.length() - 3, 3, "-ag")) {
+            const auto& ag_file = db.lookup_record(ag);
+            lg::print("custom level: extracting art group {}\n", ag_file.name_in_dgo);
+            decompiler::extract_merc(ag_file, tex_db, db.dts, tex_remap, tfrag_level, false,
+                                     db.version());
+                                     // extract_merc(ag_file, tex_db, db.dts, tex_remap, level_data, false, db.version());
+          }
+        }
+      }
+    
+
 
   Serializer ser;
   tfrag_level.serialize(ser);
@@ -386,7 +445,7 @@ void extract_all_levels(const ObjectFileDB& db,
                         bool debug_dump_level,
                         bool extract_collision,
                         const fs::path& output_path) {
-  extract_common(db, tex_db, common_name, debug_dump_level, output_path, config);
+  extract_common(db, tex_db, common_name, debug_dump_level, output_path, config, dgo_names);
   auto entities_dir = file_util::get_jak_project_dir() / "decompiler_out" /
                       game_version_names[config.game_version] / "entities";
   file_util::create_dir_if_needed(entities_dir);

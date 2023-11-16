@@ -465,4 +465,21 @@
   "mod-settings.o" ;; added
   "mod-common-functions.o" ;; added
   "mod-custom-code.o" ;; added
+
+
+    "tpage-851.go"
+  "tpage-853.go"
+  "tpage-852.go"
+  "tpage-2205.go"
+  "tpage-1000.go"
+  "jak-mech+0-ag.go"
+  "grunt-mech-anims+0-ag.go"
+  "mech-part.o"
+  "mech.o"
+  "target-mech.o"
+  "mech-states.o"
+  "grunt-mech.o"
+  "mech-ag.go"
+
+
  ))
