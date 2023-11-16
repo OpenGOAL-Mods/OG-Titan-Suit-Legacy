@@ -338,9 +338,6 @@ std::vector<std::string> hardcodedValue = {"mech-ag"};
 
        lg::print("fart\n");
       for (auto& dgo : dgo_names) {
-    // if (dgo.substr(4) == "GAME.CGO") {
-    //     continue;
-    // }
          lg::print("custom level: extracting art group {}\n", dgo);
         std::vector<std::string> processed_art_groups;
         // remove "DGO/" prefix
